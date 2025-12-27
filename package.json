@@ -1,0 +1,23 @@
+{
+  "name": "tenfingersystem",
+  "version": "1.0.0",
+  "description": "This is an App to improve you 10 finger System Skills",
+  "homepage": "https://github.com/1M4VE/tenfingersystem#readme",
+  "bugs": {
+    "url": "https://github.com/1M4VE/tenfingersystem/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/1M4VE/tenfingersystem.git"
+  },
+  "license": "ISC",
+  "author": "1M4VE",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "test": "electron test.js"
+  },
+  "dependencies": {
+    "electron": "^39.2.7"
+  }
+}
