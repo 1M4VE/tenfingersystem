@@ -1,6 +1,6 @@
 const { app } = require("electron");
 const Window = require("./window.js");
-const ws = require("./load_windowsettings");
+const ws = require("./load_windowsettings.js");
 app.on("ready", () => {
   app.on("window-all-closed", () => {
     if (process.platform !== "darwin") {
@@ -11,7 +11,7 @@ app.on("ready", () => {
     width: ws.windowsettings().lastwidth,
     height: ws.windowsettings().lastheight,
   });
-  win.attachHTML("./index.js");
+  win.attachHTML("index.js");
   win.on("close", () => {
     ws.changewindowsettings({
       lastwidth: win.getSize()[0],
@@ -25,7 +25,7 @@ app.on("activate", () => {
       width: ws.windowsettings().lastwidth,
       height: ws.windowsettings().lastheight,
     });
-    win.attachHTML("./index.js");
+    win.attachHTML("index.js");
     win.on("close", () => {
       ws.changewindowsettings({
         lastwidth: win.getSize()[0],

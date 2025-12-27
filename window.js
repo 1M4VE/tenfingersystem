@@ -28,7 +28,9 @@ class Window extends BrowserWindow {
     if (index) {
       this.webContents.on("did-finish-load", () => {
         this.webContents.executeJavaScript(
-          "require('" + path.resolve(index).replace(/\\/g, "/") + "')"
+          "require('" +
+            path.resolve("./preload/" + index).replace(/\\/g, "/") +
+            "')"
         );
       });
     }
