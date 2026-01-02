@@ -11,7 +11,7 @@ app.on("ready", () => {
     width: ws.windowsettings().lastwidth,
     height: ws.windowsettings().lastheight,
   });
-  win.attachHTML("index.js");
+  win.attachHTML("game");
   win.on("close", () => {
     ws.changewindowsettings({
       lastwidth: win.getSize()[0],
@@ -25,7 +25,7 @@ app.on("activate", () => {
       width: ws.windowsettings().lastwidth,
       height: ws.windowsettings().lastheight,
     });
-    win.attachHTML("index.js");
+    win.attachHTML("game");
     win.on("close", () => {
       ws.changewindowsettings({
         lastwidth: win.getSize()[0],

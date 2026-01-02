@@ -1,7 +1,7 @@
 // 1. Styles definieren und in den Head einfügen
 const style = document.createElement("style");
 style.textContent = `
-    :root {
+:root {
         --key-bg: #ffffff;
         --key-text: #333;
         --key-border: #d1d5db;
