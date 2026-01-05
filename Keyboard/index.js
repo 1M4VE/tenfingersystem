@@ -1,172 +1,181 @@
 const fs = require("fs");
 const path = require("path");
-const { runInThisContext } = require("vm");
 
 class Keyboard {
   #halfRows;
-  #fieldsInARow;
-  static #keyboards = [];
-  static #keyboardObjects = [];
+  #halfFieldsInARow;
   #keyboardname;
-  #keyLabels = [];
-  #plätze = {};
+  #area = {}; // Grid: { "r_f": { belegt: boolean, keyId: number } }
+  #keys = {}; // Tasten-Daten: { "id": { keyLabel: {}, keyEvent: {}, fields: [], gridPos: {} } }
+
+  static #keyboardObjects = [];
 
   /**
-   * Statische Methode zum Importieren
+   * @param {Object} c - { rows: number, keysInARow: number, keyboardname: string }
+   * rows/keysInARow beziehen sich auf Standardtasten (werden intern verdoppelt)
    */
-  static importKeyboards(directorypath) {
-    // Check ob Verzeichnis existiert
-    if (!fs.existsSync(directorypath)) {
-      throw Object.assign(new Error("The directory is nowhere to be found"), {
-        name: "directoryNotFound"
-      });
-    }
-
-    // Dateien scannen und filtern
-    const keyboardFiles = fs
-      .readdirSync(directorypath)
-      .filter((file) => file.endsWith("_Keyboard.json"));
-
-    if (keyboardFiles.length === 0) {
-      throw Object.assign(
-        new Error(`No keyboards found in: ${directorypath}`),
-        { name: "noKeyboardsFoundinDirectory" }
-      );
-    }
-
-    // Dateien einlesen und Instanzen erstellen
-    keyboardFiles.map((file) => {
-      const rawData = fs.readFileSync(path.join(directorypath, file), "utf8");
-      const data = JSON.parse(rawData);
-      // Neue Instanz erstellen
-      const kb = new Keyboard({
-        keyboardname: data.keyboardname,
-        rows: data.halfRows / 2, // Zurückrechnen für den Constructor
-        keysInARow: data.fieldsInARow / 2
-      });
-
-      // Tasten wiederherstellen
-      if (data.keys) {
-        data.keys.forEach((k) => {
-          kb.createKey({
-            name: k.name,
-            length: k.length,
-            height: k.height,
-            halfRow: k.leftTop.row,
-            field: k.leftTop.field
-          });
-        });
-      }
-    });
-  }
-  static searchKeyboard(name) {
-    for (let keyboardobject of Keyboard.#keyboardObjects) {
-      if (keyboardobject.#keyboardname === name) {
-        return keyboardobject;
-      }
-    }
-    return false;
-  }
-  /**
-   * Export-Methode für die JSON-Speicherung
-   */
-  exportKeyboard(directorypath) {
-    fs.writeFileSync(
-      path.join(directorypath, `${this.#keyboardname}_Keyboard.json`),
-      JSON.stringify(
-        {
-          keyboardname: this.#keyboardname,
-          halfRows: this.#halfRows,
-          fieldsInARow: this.#fieldsInARow,
-          keys: this.#keyLabels.map((entry) => {
-            const id = Object.keys(entry)[0];
-            return {
-              id: id,
-              name: entry[id].name,
-              length: entry[id].length,
-              height: entry[id].height,
-              leftTop: entry[id].leftTop
-            };
-          })
-        },
-        null,
-        2
-      )
-    );
-  }
-
   constructor(c) {
-    this.#halfRows = (c?.rows ?? 3) * 2; // Default 6 halfRows
-    this.#fieldsInARow = (c?.keysInARow ?? 14) * 2;
+    this.#halfRows = (c?.rows ?? 3) * 2;
+    this.#halfFieldsInARow = (c?.keysInARow ?? 14) * 2;
+    this.#keyboardname = c?.keyboardname ?? "New_Keyboard";
 
-    if (Keyboard.#keyboards.includes(c?.keyboardname)) {
-      throw Object.assign(new Error("This Keyboardname Already Exists"), {
-        name: "keyboardnameAlreadyExists"
-      });
-    }
-    this.#keyboardname =
-      c?.keyboardname ?? "Default_Keyboard_" + Keyboard.#keyboards.length;
-    Keyboard.#keyboards.push(this.#keyboardname);
-
-    for (let i = 1; i <= this.#halfRows; i++) {
-      let rowObj = {};
-      for (let j = 1; j <= this.#fieldsInARow; j++) {
-        rowObj[`${i}_${j}`] = { belegt: false, key: null };
+    // Initialisierung des Halbraster-Grids
+    for (let r = 1; r <= this.#halfRows; r++) {
+      for (let f = 1; f <= this.#halfFieldsInARow; f++) {
+        this.#area[`${r}_${f}`] = { belegt: false, keyId: null };
       }
-      this.#plätze[i] = rowObj;
     }
     Keyboard.#keyboardObjects.push(this);
   }
 
+  /**
+   * Erstellt eine Taste basierend auf einer Liste von Halbraster-Feldern.
+   * Erlaubt rechteckige und komplexe (wandernde) Formen.
+   * * @param {Object} k - {
+   * keyLabel: { primary, secondary, tertiary },
+   * keyEvent: { primary, secondary, tertiary },
+   * fields: [{r, f}, ...]
+   * }
+   */
   createKey(k) {
-    if (k?.halfRow === undefined || k?.field === undefined) {
-      throw Object.assign(new Error("Key benötigt halfRow und field."), {
-        name: "missingKeyCoordinates"
-      });
+    if (!k.fields || k.fields.length === 0) {
+      throw Object.assign(
+        new Error("Key benötigt mindestens ein Feld im Halbraster."),
+        { name: "keySizeInvalid" }
+      );
     }
 
-    const length = k?.length ?? 2;
-    const height = k?.height ?? 2;
+    const keyId = Object.keys(this.#keys).length + 1;
 
-    for (let r = k.halfRow; r < k.halfRow + height; r++) {
-      for (let f = k.field; f < k.field + length; f++) {
-        if (!this.#plätze[r] || !this.#plätze[r][`${r}_${f}`]) {
-          throw Object.assign(new Error("Außerhalb des Keyboards"), {
-            name: "keyOutOfBounds"
-          });
-        }
-        if (this.#plätze[r][`${r}_${f}`].belegt) {
-          throw Object.assign(new Error("Kollision"), { name: "keyCollision" });
-        }
+    // 1. Validierung: Sind alle Zielfelder im Grid und frei?
+    k.fields.forEach((f) => {
+      const coord = `${f.r}_${f.f}`;
+      if (!this.#area[coord]) {
+        throw Object.assign(
+          new Error(`Koordinate ${coord} liegt außerhalb des Keyboards.`),
+          { name: "keyOutOfBounds" }
+        );
       }
-    }
+      if (this.#area[coord].belegt) {
+        throw Object.assign(
+          new Error(
+            `Koordinate ${coord} ist bereits durch Key ${
+              this.#area[coord].keyId
+            } belegt.`
+          ),
+          { name: "keyPositionAlreadyUsed" }
+        );
+      }
+    });
 
-    const finalIndex = this.#keyLabels.length + 1; // Vereinfachte Index-Logik für das Beispiel
-    const key = {
-      name: k?.name ?? "key_" + finalIndex,
-      length: length,
-      height: height,
-      leftTop: { row: k.halfRow, field: k.field }
+    // 2. Felder im Grid belegen
+    k.fields.forEach((f) => {
+      const coord = `${f.r}_${f.f}`;
+      this.#area[coord].belegt = true;
+      this.#area[coord].keyId = keyId;
+    });
+
+    // 3. Bounding Box berechnen (für CSS-Grid Positionierung)
+    const rows = k.fields.map((f) => f.r);
+    const cols = k.fields.map((f) => f.f);
+    const minR = Math.min(...rows);
+    const maxR = Math.max(...rows);
+    const minF = Math.min(...cols);
+    const maxF = Math.max(...cols);
+
+    // 4. Key-Objekt speichern
+    this.#keys[keyId] = {
+      id: keyId,
+      keyLabel: {
+        primary: k.keyLabel?.primary ?? "",
+        secondary: k.keyLabel?.secondary ?? "",
+        tertiary: k.keyLabel?.tertiary ?? ""
+      },
+      keyEvent: {
+        primary: k.keyEvent?.primary ?? k.keyLabel?.primary ?? "",
+        secondary: k.keyEvent?.secondary ?? k.keyLabel?.secondary ?? "",
+        tertiary: k.keyEvent?.tertiary ?? k.keyLabel?.tertiary ?? ""
+      },
+      fields: k.fields,
+      areaSize: k.fields.length, // Fläche in Halbraster-Einheiten
+      gridPos: {
+        rowStart: minR,
+        colStart: minF,
+        rowSpan: maxR - minR + 1,
+        colSpan: maxF - minF + 1
+      }
     };
 
-    this.#keyLabels.push({ [finalIndex]: key });
-    this.#toggleGridSpace(k.halfRow, k.field, length, height, true, finalIndex);
-    return finalIndex;
+    return keyId;
   }
 
-  #toggleGridSpace(row, field, len, hei, isBelegt, keyIndex) {
-    for (let r = row; r < row + hei; r++) {
-      for (let f = field; f < field + len; f++) {
-        const fieldKey = `${r}_${f}`;
-        if (this.#plätze[r] && this.#plätze[r][fieldKey]) {
-          this.#plätze[r][fieldKey].belegt = isBelegt;
-          this.#plätze[r][fieldKey].key = keyIndex;
-        }
+  // --- STATISCHE METHODEN ---
+
+  static importKeyboards(directorypath) {
+    if (!fs.existsSync(directorypath)) return;
+
+    const files = fs
+      .readdirSync(directorypath)
+      .filter((f) => f.endsWith("_Keyboard.json"));
+
+    files.forEach((file) => {
+      const data = JSON.parse(
+        fs.readFileSync(path.join(directorypath, file), "utf8")
+      );
+      const kb = new Keyboard({
+        keyboardname: data.keyboardname,
+        rows: data.halfRows / 2,
+        keysInARow: data.halfFieldsInARow / 2
+      });
+      if (data.keys) {
+        // In der JSON sind Keys oft ein Objekt oder Array
+        const keyList = Array.isArray(data.keys)
+          ? data.keys
+          : Object.values(data.keys);
+        keyList.forEach((k) => kb.createKey(k));
       }
-    }
+    });
   }
-  #getKeyboardname() {
-    return this.#keyboardname;
+
+  static searchKeyboard(name) {
+    return (
+      Keyboard.#keyboardObjects.find((kb) => kb.#keyboardname === name) || false
+    );
+  }
+
+  static showKeyboards() {
+    return Keyboard.#keyboardObjects.map((kb) => kb.#keyboardname);
+  }
+
+  // --- GETTER ---
+
+  getSize() {
+    return { height: this.#halfRows, length: this.#halfFieldsInARow };
+  }
+
+  getKeys() {
+    return Object.values(this.#keys);
+  }
+
+  getArea() {
+    return this.#area;
+  }
+
+  /**
+   * Exportiert das Keyboard in ein JSON-Format
+   */
+  exportKeyboard(directorypath) {
+    const exportData = {
+      keyboardname: this.#keyboardname,
+      halfRows: this.#halfRows,
+      halfFieldsInARow: this.#halfFieldsInARow,
+      keys: this.#keys
+    };
+    fs.writeFileSync(
+      path.join(directorypath, `${this.#keyboardname}_Keyboard.json`),
+      JSON.stringify(exportData, null, 2)
+    );
   }
 }
+
 module.exports = Keyboard;

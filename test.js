@@ -13,8 +13,13 @@ app.on("ready", () => {
   });
   const win = new Window({
     width: ws.windowsettings().lastwidth,
-    height: ws.windowsettings().lastheight
+    height: ws.windowsettings().lastheight,
+    webPreferences: {
+      contextIsolation: true,
+      preload: path.join(__dirname, "preload.js")
+    }
   });
+  win.webContents.openDevTools();
   win.attachHTML("game");
   win.on("close", () => {
     ws.changewindowsettings({
@@ -39,5 +44,12 @@ app.on("activate", () => {
   }
 });
 ipcMain.handle("load_keyboards", async (event) => {
-  return Keyboard.importKeyboards("./Keyboards");
+  Keyboard.importKeyboards("./Keyboard");
+  console.log("Keyboards succesfully loaded!");
+});
+ipcMain.handle("getKeyboardSize", async (event, name) => {
+  return Keyboard.searchKeyboard(name).getSize();
+});
+ipcMain.handle("getKeyboardKeys", async (event, name) => {
+  return Keyboard.searchKeyboard(name).getKeys();
 });

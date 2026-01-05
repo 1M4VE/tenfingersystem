@@ -1,0 +1,119 @@
+{
+  "keyboardname": "Gaming_Pro_V3",
+  "halfRows": 12,
+  "halfFieldsInARow": 28,
+  "keys": [
+    {
+      "keyLabel": {
+        "primary": "ESC",
+        "secondary": "",
+        "tertiary": ""
+      },
+      "keyEvent": {
+        "primary": "Escape",
+        "secondary": "Escape",
+        "tertiary": "Escape"
+      },
+      "fields": [
+        { "r": 1, "f": 1 },
+        { "r": 1, "f": 2 },
+        { "r": 2, "f": 1 },
+        { "r": 2, "f": 2 }
+      ]
+    },
+    {
+      "keyLabel": {
+        "primary": "2",
+        "secondary": "\"",
+        "tertiary": "²"
+      },
+      "keyEvent": {
+        "primary": "2",
+        "secondary": "\"",
+        "tertiary": "²"
+      },
+      "fields": [
+        { "r": 1, "f": 5 },
+        { "r": 1, "f": 6 },
+        { "r": 2, "f": 5 },
+        { "r": 2, "f": 6 }
+      ]
+    },
+    {
+      "keyLabel": {
+        "primary": "Q",
+        "secondary": "Q",
+        "tertiary": "@"
+      },
+      "keyEvent": {
+        "primary": "q",
+        "secondary": "Q",
+        "tertiary": "@"
+      },
+      "fields": [
+        { "r": 3, "f": 3 },
+        { "r": 3, "f": 4 },
+        { "r": 4, "f": 3 },
+        { "r": 4, "f": 4 }
+      ]
+    },
+    {
+      "keyLabel": {
+        "primary": "Enter",
+        "secondary": "",
+        "tertiary": ""
+      },
+      "keyEvent": {
+        "primary": "Enter",
+        "secondary": "Enter",
+        "tertiary": "Enter"
+      },
+      "fields": [
+        { "r": 5, "f": 24 },
+        { "r": 5, "f": 25 },
+        { "r": 5, "f": 26 },
+        { "r": 6, "f": 24 },
+        { "r": 6, "f": 25 },
+        { "r": 6, "f": 26 },
+        { "r": 7, "f": 23 },
+        { "r": 7, "f": 24 },
+        { "r": 7, "f": 25 },
+        { "r": 7, "f": 26 },
+        { "r": 8, "f": 23 },
+        { "r": 8, "f": 24 },
+        { "r": 8, "f": 25 },
+        { "r": 8, "f": 26 }
+      ]
+    },
+    {
+      "keyLabel": {
+        "primary": "Space",
+        "secondary": "",
+        "tertiary": ""
+      },
+      "keyEvent": {
+        "primary": " ",
+        "secondary": " ",
+        "tertiary": " "
+      },
+      "fields": [
+        { "r": 11, "f": 6 },
+        { "r": 11, "f": 7 },
+        { "r": 11, "f": 8 },
+        { "r": 11, "f": 9 },
+        { "r": 11, "f": 10 },
+        { "r": 11, "f": 11 },
+        { "r": 11, "f": 12 },
+        { "r": 11, "f": 13 },
+        { "r": 12, "f": 6 },
+        { "r": 12, "f": 7 },
+        { "r": 12, "f": 8 },
+        { "r": 12, "f": 9 },
+        { "r": 12, "f": 10 },
+        { "r": 12, "f": 11 },
+        { "r": 12, "f": 12 },
+        { "r": 12, "f": 13 }
+      ]
+    }
+  ]
+}

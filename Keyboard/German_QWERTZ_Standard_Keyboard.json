@@ -1,0 +1,267 @@
+{
+  "keyboardname": "German_QWERTZ_Standard",
+  "halfRows": 12,
+  "halfFieldsInARow": 28,
+  "keys": [
+    {
+      "keyLabel": { "primary": "Q", "secondary": "Q", "tertiary": "@" },
+      "keyEvent": { "primary": "q", "secondary": "Q", "tertiary": "@" },
+      "fields": [
+        { "r": 3, "f": 4 },
+        { "r": 3, "f": 5 },
+        { "r": 4, "f": 4 },
+        { "r": 4, "f": 5 }
+      ]
+    },
+    {
+      "keyLabel": { "primary": "W", "secondary": "W", "tertiary": "" },
+      "keyEvent": { "primary": "w", "secondary": "W", "tertiary": "" },
+      "fields": [
+        { "r": 3, "f": 6 },
+        { "r": 3, "f": 7 },
+        { "r": 4, "f": 6 },
+        { "r": 4, "f": 7 }
+      ]
+    },
+    {
+      "keyLabel": { "primary": "E", "secondary": "E", "tertiary": "€" },
+      "keyEvent": { "primary": "e", "secondary": "E", "tertiary": "€" },
+      "fields": [
+        { "r": 3, "f": 8 },
+        { "r": 3, "f": 9 },
+        { "r": 4, "f": 8 },
+        { "r": 4, "f": 9 }
+      ]
+    },
+    {
+      "keyLabel": { "primary": "R", "secondary": "R", "tertiary": "" },
+      "keyEvent": { "primary": "r", "secondary": "R", "tertiary": "" },
+      "fields": [
+        { "r": 3, "f": 10 },
+        { "r": 3, "f": 11 },
+        { "r": 4, "f": 10 },
+        { "r": 4, "f": 11 }
+      ]
+    },
+    {
+      "keyLabel": { "primary": "T", "secondary": "T", "tertiary": "" },
+      "keyEvent": { "primary": "t", "secondary": "T", "tertiary": "" },
+      "fields": [
+        { "r": 3, "f": 12 },
+        { "r": 3, "f": 13 },
+        { "r": 4, "f": 12 },
+        { "r": 4, "f": 13 }
+      ]
+    },
+    {
+      "keyLabel": { "primary": "Z", "secondary": "Z", "tertiary": "" },
+      "keyEvent": { "primary": "z", "secondary": "Z", "tertiary": "" },
+      "fields": [
+        { "r": 3, "f": 14 },
+        { "r": 3, "f": 15 },
+        { "r": 4, "f": 14 },
+        { "r": 4, "f": 15 }
+      ]
+    },
+    {
+      "keyLabel": { "primary": "U", "secondary": "U", "tertiary": "" },
+      "keyEvent": { "primary": "u", "secondary": "U", "tertiary": "" },
+      "fields": [
+        { "r": 3, "f": 16 },
+        { "r": 3, "f": 17 },
+        { "r": 4, "f": 16 },
+        { "r": 4, "f": 17 }
+      ]
+    },
+    {
+      "keyLabel": { "primary": "I", "secondary": "I", "tertiary": "" },
+      "keyEvent": { "primary": "i", "secondary": "I", "tertiary": "" },
+      "fields": [
+        { "r": 3, "f": 18 },
+        { "r": 3, "f": 19 },
+        { "r": 4, "f": 18 },
+        { "r": 4, "f": 19 }
+      ]
+    },
+    {
+      "keyLabel": { "primary": "O", "secondary": "O", "tertiary": "" },
+      "keyEvent": { "primary": "o", "secondary": "O", "tertiary": "" },
+      "fields": [
+        { "r": 3, "f": 20 },
+        { "r": 3, "f": 21 },
+        { "r": 4, "f": 20 },
+        { "r": 4, "f": 21 }
+      ]
+    },
+    {
+      "keyLabel": { "primary": "P", "secondary": "P", "tertiary": "" },
+      "keyEvent": { "primary": "p", "secondary": "P", "tertiary": "" },
+      "fields": [
+        { "r": 3, "f": 22 },
+        { "r": 3, "f": 23 },
+        { "r": 4, "f": 22 },
+        { "r": 4, "f": 23 }
+      ]
+    },
+    {
+      "keyLabel": { "primary": "A", "secondary": "A", "tertiary": "" },
+      "keyEvent": { "primary": "a", "secondary": "A", "tertiary": "" },
+      "fields": [
+        { "r": 5, "f": 5 },
+        { "r": 5, "f": 6 },
+        { "r": 6, "f": 5 },
+        { "r": 6, "f": 6 }
+      ]
+    },
+    {
+      "keyLabel": { "primary": "S", "secondary": "S", "tertiary": "" },
+      "keyEvent": { "primary": "s", "secondary": "S", "tertiary": "" },
+      "fields": [
+        { "r": 5, "f": 7 },
+        { "r": 5, "f": 8 },
+        { "r": 6, "f": 7 },
+        { "r": 6, "f": 8 }
+      ]
+    },
+    {
+      "keyLabel": { "primary": "D", "secondary": "D", "tertiary": "" },
+      "keyEvent": { "primary": "d", "secondary": "D", "tertiary": "" },
+      "fields": [
+        { "r": 5, "f": 9 },
+        { "r": 5, "f": 10 },
+        { "r": 6, "f": 9 },
+        { "r": 6, "f": 10 }
+      ]
+    },
+    {
+      "keyLabel": { "primary": "F", "secondary": "F", "tertiary": "" },
+      "keyEvent": { "primary": "f", "secondary": "F", "tertiary": "" },
+      "fields": [
+        { "r": 5, "f": 11 },
+        { "r": 5, "f": 12 },
+        { "r": 6, "f": 11 },
+        { "r": 6, "f": 12 }
+      ]
+    },
+    {
+      "keyLabel": { "primary": "G", "secondary": "G", "tertiary": "" },
+      "keyEvent": { "primary": "g", "secondary": "G", "tertiary": "" },
+      "fields": [
+        { "r": 5, "f": 13 },
+        { "r": 5, "f": 14 },
+        { "r": 6, "f": 13 },
+        { "r": 6, "f": 14 }
+      ]
+    },
+    {
+      "keyLabel": { "primary": "H", "secondary": "H", "tertiary": "" },
+      "keyEvent": { "primary": "h", "secondary": "H", "tertiary": "" },
+      "fields": [
+        { "r": 5, "f": 15 },
+        { "r": 5, "f": 16 },
+        { "r": 6, "f": 15 },
+        { "r": 6, "f": 16 }
+      ]
+    },
+    {
+      "keyLabel": { "primary": "J", "secondary": "J", "tertiary": "" },
+      "keyEvent": { "primary": "j", "secondary": "J", "tertiary": "" },
+      "fields": [
+        { "r": 5, "f": 17 },
+        { "r": 5, "f": 18 },
+        { "r": 6, "f": 17 },
+        { "r": 6, "f": 18 }
+      ]
+    },
+    {
+      "keyLabel": { "primary": "K", "secondary": "K", "tertiary": "" },
+      "keyEvent": { "primary": "k", "secondary": "K", "tertiary": "" },
+      "fields": [
+        { "r": 5, "f": 19 },
+        { "r": 5, "f": 20 },
+        { "r": 6, "f": 19 },
+        { "r": 6, "f": 20 }
+      ]
+    },
+    {
+      "keyLabel": { "primary": "L", "secondary": "L", "tertiary": "" },
+      "keyEvent": { "primary": "l", "secondary": "L", "tertiary": "" },
+      "fields": [
+        { "r": 5, "f": 21 },
+        { "r": 5, "f": 22 },
+        { "r": 6, "f": 21 },
+        { "r": 6, "f": 22 }
+      ]
+    },
+    {
+      "keyLabel": { "primary": "Y", "secondary": "Y", "tertiary": "" },
+      "keyEvent": { "primary": "y", "secondary": "Y", "tertiary": "" },
+      "fields": [
+        { "r": 7, "f": 7 },
+        { "r": 7, "f": 8 },
+        { "r": 8, "f": 7 },
+        { "r": 8, "f": 8 }
+      ]
+    },
+    {
+      "keyLabel": { "primary": "X", "secondary": "X", "tertiary": "" },
+      "keyEvent": { "primary": "x", "secondary": "X", "tertiary": "" },
+      "fields": [
+        { "r": 7, "f": 9 },
+        { "r": 7, "f": 10 },
+        { "r": 8, "f": 9 },
+        { "r": 8, "f": 10 }
+      ]
+    },
+    {
+      "keyLabel": { "primary": "C", "secondary": "C", "tertiary": "" },
+      "keyEvent": { "primary": "c", "secondary": "C", "tertiary": "" },
+      "fields": [
+        { "r": 7, "f": 11 },
+        { "r": 7, "f": 12 },
+        { "r": 8, "f": 11 },
+        { "r": 8, "f": 12 }
+      ]
+    },
+    {
+      "keyLabel": { "primary": "V", "secondary": "V", "tertiary": "" },
+      "keyEvent": { "primary": "v", "secondary": "V", "tertiary": "" },
+      "fields": [
+        { "r": 7, "f": 13 },
+        { "r": 7, "f": 14 },
+        { "r": 8, "f": 13 },
+        { "r": 8, "f": 14 }
+      ]
+    },
+    {
+      "keyLabel": { "primary": "B", "secondary": "B", "tertiary": "" },
+      "keyEvent": { "primary": "b", "secondary": "B", "tertiary": "" },
+      "fields": [
+        { "r": 7, "f": 15 },
+        { "r": 7, "f": 16 },
+        { "r": 8, "f": 15 },
+        { "r": 8, "f": 16 }
+      ]
+    },
+    {
+      "keyLabel": { "primary": "N", "secondary": "N", "tertiary": "" },
+      "keyEvent": { "primary": "n", "secondary": "N", "tertiary": "" },
+      "fields": [
+        { "r": 7, "f": 17 },
+        { "r": 7, "f": 18 },
+        { "r": 8, "f": 17 },
+        { "r": 8, "f": 18 }
+      ]
+    },
+    {
+      "keyLabel": { "primary": "M", "secondary": "M", "tertiary": "μ" },
+      "keyEvent": { "primary": "m", "secondary": "M", "tertiary": "μ" },
+      "fields": [
+        { "r": 7, "f": 19 },
+        { "r": 7, "f": 20 },
+        { "r": 8, "f": 19 },
+        { "r": 8, "f": 20 }
+      ]
+    }
+  ]
+}
