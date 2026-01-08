@@ -1,10 +1,10 @@
 const { app } = require("electron");
 const Window = require("./window.js");
 const ws = require("./load_windowsettings.js");
-const fs = require("fs");
 const path = require("path");
-const { ipcMain } = require("electron");
-const Keyboard = require("./Keyboard");
+const { events } = require("./Bridge.js");
+const { enableCompileCache } = require("module");
+events();
 app.on("ready", () => {
   app.on("window-all-closed", () => {
     if (process.platform !== "darwin") {
@@ -19,6 +19,7 @@ app.on("ready", () => {
       preload: path.join(__dirname, "preload.js")
     }
   });
+
   win.webContents.openDevTools();
   win.attachHTML("game");
   win.on("close", () => {
@@ -42,14 +43,4 @@ app.on("activate", () => {
       });
     });
   }
-});
-ipcMain.handle("load_keyboards", async (event) => {
-  Keyboard.importKeyboards("./Keyboard");
-  console.log("Keyboards succesfully loaded!");
-});
-ipcMain.handle("getKeyboardSize", async (event, name) => {
-  return Keyboard.searchKeyboard(name).getSize();
-});
-ipcMain.handle("getKeyboardKeys", async (event, name) => {
-  return Keyboard.searchKeyboard(name).getKeys();
 });

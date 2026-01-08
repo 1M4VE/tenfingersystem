@@ -5,21 +5,23 @@ class Keyboard {
   #halfRows;
   #halfFieldsInARow;
   #keyboardname;
-  #area = {}; // Grid: { "r_f": { belegt: boolean, keyId: number } }
-  #keys = {}; // Tasten-Daten: { "id": { keyLabel: {}, keyEvent: {}, fields: [], gridPos: {} } }
+  #area = {};
+  #keys = {};
 
   static #keyboardObjects = [];
 
   /**
-   * @param {Object} c - { rows: number, keysInARow: number, keyboardname: string }
-   * rows/keysInARow beziehen sich auf Standardtasten (werden intern verdoppelt)
+   * @param {Object} c
+   * @param {number} c.rows Defines the amount of 2x2 rows the keyboard has
+   * @param {number} c.keysInARow Defines how many keys are in a row
+   * @param {String} c.keyboardname Defines the name of the keyboardobject
    */
   constructor(c) {
     this.#halfRows = (c?.rows ?? 3) * 2;
     this.#halfFieldsInARow = (c?.keysInARow ?? 14) * 2;
-    this.#keyboardname = c?.keyboardname ?? "New_Keyboard";
-
-    // Initialisierung des Halbraster-Grids
+    this.#keyboardname =
+      c?.keyboardname ??
+      "New_Keyboard_" + Object.keys(Keyboard.#keyboardObjects).lenght;
     for (let r = 1; r <= this.#halfRows; r++) {
       for (let f = 1; f <= this.#halfFieldsInARow; f++) {
         this.#area[`${r}_${f}`] = { belegt: false, keyId: null };
@@ -29,13 +31,15 @@ class Keyboard {
   }
 
   /**
-   * Erstellt eine Taste basierend auf einer Liste von Halbraster-Feldern.
-   * Erlaubt rechteckige und komplexe (wandernde) Formen.
-   * * @param {Object} k - {
-   * keyLabel: { primary, secondary, tertiary },
-   * keyEvent: { primary, secondary, tertiary },
-   * fields: [{r, f}, ...]
-   * }
+   *@param {Object} k The characteristics of the key
+   *@param {number} k.fields.lenght The lenght of the Key
+   *@param {number} k.fields An array of grid coordinates defining the key's shape
+   *@param {Object} k.keyLabel The Labels of the Keys
+   *@param {String} k.keyLabel.primary Primary Label
+   *@param {String} k.keyLabel.secondary Secondary Label
+   *@param {String} k.keyLabel.tertiary Tertiary Label
+   *@param {String} k.keyEvent The events of the key labels
+   *@param {String} [k.keyEvent.primary = 'a','b']
    */
   createKey(k) {
     if (!k.fields || k.fields.length === 0) {
